@@ -45,7 +45,9 @@ const options = stdio.getopt({
 	debug: {description: 'Show debug messages'},
 	insecure: {description: 'Allow self-signed certificates over https'},
 	key: {args: 1, description: 'The client key to use'},
-	cert: {args: 1, description: 'The client certificate to use'}
+	cert: {args: 1, description: 'The client certificate to use'},
+	pfx: {args: 1, description: 'The encoded private key and certificate chain'},
+	passphrase: {args: 1, description: 'Shared passphrase used for an encrypted private key or a PFX'}
 });
 if (options.version) {
 	console.log('Loadtest version: %s', packageJson.version);
@@ -121,6 +123,14 @@ if(!options.cert) {
 if(options.cert) {
 	options.cert = fs.readFileSync(options.cert);
 }
+if(!options.pfx)
+{
+	options.pfx = configuration.pfx;
+}
+if(options.pfx)
+{
+	options.pfx = fs.readFileSync(options.pfx);
+}
 
 const defaultHeaders = options.headers || !configuration.headers ? {} : configuration.headers;
 defaultHeaders['host'] = urlLib.parse(options.url).host;
@@ -170,6 +180,10 @@ if(!options.recover) {
 }
 if(!options.proxy) {
 	options.proxy = configuration.proxy;
+}
+if(!options.passphrase)
+{
+	options.passphrase = configuration.passphrase;
 }
 
 loadTest.loadTest(options);

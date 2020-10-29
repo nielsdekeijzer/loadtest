@@ -326,6 +326,14 @@ Sets the certificate for the http client to use. Must be used with `--key`.
 
 Sets the key for the http client to use. Must be used with `--cert`.
 
+#### `--pfx path/to/bundle.pfx`
+
+Sets the key/certificate bundle (.pfx or .p12) for the http client to use. Must be used with `--passphrase`.
+
+#### `--passphrase`
+
+Sets the passphrase for an encrypted private key or a PFX. Must be used with `--pfx`, or `--key`.
+
 ### Server
 
 loadtest bundles a test server. To run it:
